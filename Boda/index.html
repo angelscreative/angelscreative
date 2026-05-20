@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Nuestra Boda</title>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      min-height: 100vh;
+      font-family: Georgia, serif;
+      color: #5c1717;
+      background: #f8efe6;
+      overflow-x: hidden;
+      text-align: center;
+    }
+
+    .pantalla {
+      min-height: 100vh;
+      background-image: url("Fondo-boda.png");
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      padding: 55px 20px 30px;
+    }
+
+    .portada {
+      position: relative;
+      z-index: 2;
+    }
+
+    .letras {
+      width: 210px;
+      max-width: 45vw;
+      margin-bottom: 35px;
+      animation: aparecer 1.2s ease forwards;
+    }
+
+    .sobre-contenedor {
+      position: relative;
+      width: 620px;
+      max-width: 92vw;
+      margin-top: 10px;
+    }
+
+    .sobre {
+      width: 100%;
+      display: block;
+      filter: drop-shadow(0 18px 20px rgba(0, 0, 0, 0.35));
+    }
+
+    .boton-sello {
+      position: absolute;
+      left: 50%;
+      top: 53%;
+      transform: translate(-50%, -50%);
+      width: 155px;
+      max-width: 28vw;
+      cursor: pointer;
+      border: none;
+      background: transparent;
+      padding: 0;
+      animation: latido 1.8s infinite ease-in-out;
+      filter: drop-shadow(0 8px 10px rgba(0, 0, 0, 0.35));
+      z-index: 5;
+    }
+
+    .boton-sello img {
+      width: 100%;
+      display: block;
+      transition: transform 0.3s ease;
+    }
+
+    .boton-sello:hover img {
+      transform: scale(1.08) rotate(-3deg);
+    }
+
+    .boton-sello:active img {
+      transform: scale(0.92);
+    }
+
+    .texto-portada {
+      margin-top: 42px;
+      font-size: clamp(24px, 4vw, 42px);
+      color: #6f1118;
+      text-shadow: 0 2px 3px rgba(255,255,255,0.8);
+      animation: brilloTexto 2s infinite ease-in-out;
+    }
+
+    .invitacion {
+      display: none;
+      width: 100%;
+      min-height: 100vh;
+      background-image: url("Fondo-boda.png");
+      background-size: cover;
+      background-position: center;
+      background-repeat: repeat-y;
+      padding: 40px 18px;
+      animation: aparecer 1s ease forwards;
+    }
+
+    .tarjeta {
+      width: 100%;
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 35px 22px;
+      border-radius: 28px;
+      /*background: rgba(255, 255, 255, 0.76);*/
+      /*box-shadow: 0 15px 35px rgba(90, 30, 20, 0.18);*/
+      backdrop-filter: blur(2px);
+    }
+
+    .novios {
+      width: 270px;
+      max-width: 82%;
+      margin-bottom: 25px;
+      border-radius: 22px;
+      filter: drop-shadow(0 10px 14px rgba(0, 0, 0, 0.18));
+    }
+
+    .versiculo {
+      font-size: 20px;
+      line-height: 1.6;
+      font-style: italic;
+      margin-bottom: 25px;
+    }
+
+    .texto-invitacion {
+      font-size: 22px;
+      line-height: 1.7;
+      margin-bottom: 25px;
+    }
+
+    .datos {
+      font-size: 22px;
+      line-height: 1.7;
+      margin: 25px 0;
+    }
+
+    .seccion {
+      margin-top: 28px;
+      font-size: 22px;
+      line-height: 1.6;
+    }
+
+    .titulo {
+      font-size: 32px;
+      margin-bottom: 12px;
+      color: #8b111b;
+    }
+
+    .faltan {
+      margin-top: 32px;
+      font-size: 28px;
+      color: #8b111b;
+    }
+
+    .contador {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      margin: 18px auto 30px;
+      max-width: 560px;
+    }
+
+    .contador div {
+      background: #8b111b;
+      color: white;
+      border-radius: 18px;
+      padding: 16px 8px;
+      box-shadow: 0 8px 16px rgba(80, 0, 0, 0.2);
+    }
+
+    .contador span {
+      display: block;
+      font-size: 30px;
+      font-weight: bold;
+    }
+
+    .contador small {
+      font-size: 13px;
+      letter-spacing: 1px;
+    }
+
+    .botones {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      margin-top: 25px;
+    }
+
+    .boton {
+      text-decoration: none;
+      background: #8b111b;
+      color: white;
+      padding: 15px 22px;
+      border-radius: 30px;
+      font-size: 19px;
+      transition: transform 0.3s ease, background 0.3s ease;
+      display: inline-block;
+    }
+
+    .boton:hover {
+      transform: scale(1.04);
+      background: #b51b28;
+    }
+
+    @keyframes latido {
+      0%, 100% {
+        transform: translate(-50%, -50%) scale(1);
+      }
+      50% {
+        transform: translate(-50%, -50%) scale(1.08);
+      }
+    }
+
+    @keyframes aparecer {
+      from {
+        opacity: 0;
+        transform: translateY(25px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes brilloTexto {
+      0%, 100% {
+        opacity: 0.85;
+      }
+      50% {
+        opacity: 1;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .pantalla {
+        padding-top: 45px;
+      }
+
+      .letras {
+        width: 150px;
+        margin-bottom: 35px;
+      }
+
+      .sobre-contenedor {
+        width: 95vw;
+      }
+
+      .boton-sello {
+        width: 110px;
+      }
+
+      .texto-portada {
+        margin-top: 35px;
+      }
+
+      .tarjeta {
+        padding: 28px 16px;
+      }
+
+      .versiculo,
+      .texto-invitacion,
+      .datos,
+      .seccion {
+        font-size: 18px;
+      }
+
+      .titulo {
+        font-size: 28px;
+      }
+
+      .contador {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <main id="portada" class="pantalla portada">
+
+    <img class="letras" src="Letrasnombres.png" alt="Iniciales de los novios">
+
+    <section class="sobre-contenedor">
+      <img class="sobre" src="SobreYbotón.png" alt="Sobre de invitación">
+
+      <button class="boton-sello" onclick="abrirInvitacion()" aria-label="Abrir invitación">
+        <img src="Botongyt.png" alt="Sello para abrir">
+      </button>
+    </section>
+
+    <p class="texto-portada">Toque el sello para abrir</p>
+
+  </main>
+
+  <section id="invitacion" class="invitacion">
+    <div class="tarjeta">
+
+      <img class="novios" src="novios.png" alt="Novios">
+
+      <p class="versiculo">
+        “Y ahora permanecen la fe, la esperanza y el amor,<br>
+        estos tres; pero el mayor de ellos es el amor.”<br>
+        <strong>1 Corintios 13:13</strong>
+      </p>
+
+      <p class="texto-invitacion">
+        Con la bendición de Dios<br>
+        y en compañía de nuestros padres,<br>
+        tenemos el honor de invitarte<br>
+        a celebrar nuestra boda.
+      </p>
+
+      <div class="datos">
+        <strong>Día:</strong> Domingo, 31 de mayo de 2026<br>
+        <strong>Hora:</strong> 3:00 p. m.
+      </div>
+
+      <div class="seccion">
+        <h2 class="titulo">Ceremonia</h2>
+        <p>Lugar: Ceremonia Civil pendiente</p>
+      </div>
+
+      <div class="seccion">
+        <h2 class="titulo">Recepción</h2>
+        <p>
+          A continuación de la ceremonia<br>
+          Lugar pendiente
+        </p>
+      </div>
+
+      <h2 class="faltan">Faltan</h2>
+
+      <div class="contador">
+        <div><span id="dias">0</span><small>Días</small></div>
+        <div><span id="horas">0</span><small>Horas</small></div>
+        <div><span id="minutos">0</span><small>Minutos</small></div>
+        <div><span id="segundos">0</span><small>Segundos</small></div>
+      </div>
+
+      <div class="botones">
+        <a class="boton" href="#" target="_blank">Ceremonia</a>
+        <a class="boton" href="#" target="_blank">Confirmación de asistencia</a>
+      </div>
+
+    </div>
+  </section>
+
+  <script>
+    function abrirInvitacion() {
+      const sello = document.querySelector(".boton-sello");
+
+      sello.style.animation = "none";
+      sello.style.transform = "translate(-50%, -50%) scale(1.25) rotate(12deg)";
+
+      setTimeout(() => {
+        document.getElementById("portada").style.display = "none";
+        document.getElementById("invitacion").style.display = "block";
+        window.scrollTo(0, 0);
+      }, 500);
+    }
+
+    const fechaBoda = new Date("May 31, 2026 15:00:00").getTime();
+
+    function actualizarContador() {
+      const ahora = new Date().getTime();
+      const diferencia = fechaBoda - ahora;
+
+      if (diferencia <= 0) {
+        document.querySelector(".contador").innerHTML = "¡Llegó el gran día!";
+        return;
+      }
+
+      document.getElementById("dias").textContent =
+        Math.floor(diferencia / (1000 * 60 * 60 * 24));
+
+      document.getElementById("horas").textContent =
+        Math.floor((diferencia / (1000 * 60 * 60)) % 24);
+
+      document.getElementById("minutos").textContent =
+        Math.floor((diferencia / (1000 * 60)) % 60);
+
+      document.getElementById("segundos").textContent =
+        Math.floor((diferencia / 1000) % 60);
+    }
+
+    actualizarContador();
+    setInterval(actualizarContador, 1000);
+  </script>
+
+</body>
+</html>
