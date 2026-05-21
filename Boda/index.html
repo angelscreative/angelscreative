@@ -12,12 +12,12 @@
      Solo permite recursos del propio archivo, Google Fonts y enlaces a maps/whatsapp -->
 <meta http-equiv="Content-Security-Policy" content="
   default-src 'self';
-  script-src 'self' 'unsafe-inline';
+  script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.google-analytics.com;
   style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
   font-src 'self' https://fonts.gstatic.com;
-  img-src 'self' data: blob:;
+  img-src 'self' data: blob: https://www.googletagmanager.com https://www.google-analytics.com https://*.google-analytics.com https://*.analytics.google.com;
   media-src 'self' blob:;
-  connect-src 'self';
+  connect-src 'self' https://www.google-analytics.com https://*.google-analytics.com https://*.analytics.google.com https://www.googletagmanager.com;
   frame-src 'none';
   object-src 'none';
   base-uri 'self';
@@ -66,6 +66,18 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,500;1,600;1,700&family=Cinzel:wght@500;600;700&display=swap" rel="stylesheet">
+
+<!-- =============== GOOGLE ANALYTICS =============== -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-6PFT1E8L5E"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-6PFT1E8L5E', {
+    'anonymize_ip': true,
+    'cookie_flags': 'SameSite=None;Secure'
+  });
+</script>
 
 <style>
 
@@ -1960,22 +1972,22 @@ html,body{
 
     <div>
       <span id="dias">0</span>
-      <small>Días</small>
+      <small>Día</small>
     </div>
 
     <div>
       <span id="horas">0</span>
-      <small>Horas</small>
+      <small>Hora</small>
     </div>
 
     <div>
       <span id="minutos">0</span>
-      <small>Minutos</small>
+      <small>Minuto</small>
     </div>
 
     <div>
       <span id="segundos">0</span>
-      <small>Segundos</small>
+      <small>Segundo</small>
     </div>
 
   </div>
@@ -2156,6 +2168,22 @@ function inyectarNombreInvitado(){
   // textContent escapa automáticamente cualquier HTML/script - es seguro
   if(elSobre) elSobre.textContent = nombre;
   if(elTexto) elTexto.textContent = nombre;
+
+  /* =========================
+     ENVIAR EVENTO A GOOGLE ANALYTICS
+     - Registra cada visita con el nombre del invitado
+     - Esperamos un poco para asegurarnos que gtag ya está cargado
+  ========================= */
+  try {
+    if(typeof gtag === "function"){
+      gtag("event", "ver_invitacion", {
+        "nombre_invitado": nombre,
+        "es_link_personalizado": nombre !== "Para ti, con cariño"
+      });
+    }
+  } catch(e){
+    // Si Google Analytics está bloqueado por un adblocker, simplemente ignoramos
+  }
 }
 
 inyectarNombreInvitado();
@@ -2192,6 +2220,15 @@ function abrirInvitacion(){
   if(musica){
     musica.play().catch(()=>{});
   }
+
+  // Registrar en Google Analytics que el invitado abrió el sobre
+  try {
+    if(typeof gtag === "function"){
+      gtag("event", "abrir_sobre", {
+        "nombre_invitado": obtenerNombreInvitado()
+      });
+    }
+  } catch(e){}
 
   setTimeout(()=>{
     mostrarPantalla("pantalla3");
