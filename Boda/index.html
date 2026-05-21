@@ -37,7 +37,30 @@
 <!-- Evitar que se interprete contenido con MIME erróneo -->
 <meta http-equiv="X-Content-Type-Options" content="nosniff">
 
-<title>Invitación de Boda</title>
+<title>Nuestra boda — Gaby y Tony</title>
+
+<!-- =============== FAVICON =============== -->
+<link rel="icon" type="image/png" href="faviconAngels.png">
+<link rel="apple-touch-icon" href="faviconAngels.png">
+<link rel="shortcut icon" type="image/png" href="faviconAngels.png">
+
+<!-- =============== OPEN GRAPH (WhatsApp, Facebook, Telegram) =============== -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Nuestra boda">
+<meta property="og:title" content="Nuestra boda — Gaby y Tony">
+<meta property="og:description" content="Acompáñanos a celebrar nuestro día especial.">
+<meta property="og:image" content="https://angelscreative.github.io/angelscreative/Boda/portada-invitacion.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Invitación de boda — Gaby y Tony">
+<meta property="og:url" content="https://angelscreative.github.io/angelscreative/Boda/">
+<meta property="og:locale" content="es_GT">
+
+<!-- =============== TWITTER CARD =============== -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Nuestra boda — Gaby y Tony">
+<meta name="twitter:description" content="Acompáñanos a celebrar nuestro día especial.">
+<meta name="twitter:image" content="https://angelscreative.github.io/angelscreative/Boda/portada-invitacion.png">
 
 <!-- Fuentes elegantes para boda -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -226,6 +249,81 @@ html,body{
   margin:0 auto 28px;
 
   animation:aparecer 1.2s ease forwards;
+}
+
+/* =========================
+   BLOQUE "PARA:" EN EL SOBRE (PANTALLA 2)
+========================= */
+
+.destinatario{
+  margin:0 auto 22px;
+  max-width:90vw;
+
+  animation:aparecer 1.4s ease forwards;
+  opacity:0;
+  animation-delay:0.3s;
+  animation-fill-mode:forwards;
+}
+
+.destinatario-etiqueta{
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size:clamp(14px,2.4vw,18px);
+  font-style:italic;
+  font-weight:500;
+  letter-spacing:3px;
+  text-transform:uppercase;
+  color:#5a3a14;
+  opacity:0.75;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:14px;
+
+  margin-bottom:6px;
+}
+
+.destinatario-etiqueta::before,
+.destinatario-etiqueta::after{
+  content:"";
+  display:inline-block;
+  width:38px;
+  height:1px;
+  background:linear-gradient(90deg, transparent, var(--dorado-oscuro), transparent);
+}
+
+.destinatario-nombre{
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size:clamp(22px,4.2vw,30px);
+  font-weight:700;
+  font-style:italic;
+  letter-spacing:0.5px;
+  line-height:1.25;
+
+  color:#5a3a14;
+
+  text-shadow:0 2px 4px rgba(255,255,255,.9);
+
+  /* Shimmer dorado igual que .texto-abrir */
+  background:linear-gradient(
+    90deg,
+    #5a3a14 0%,
+    #5a3a14 42%,
+    var(--dorado-oscuro) 50%,
+    #5a3a14 58%,
+    #5a3a14 100%
+  );
+  background-size:200% 100%;
+  -webkit-background-clip:text;
+  background-clip:text;
+  -webkit-text-fill-color:transparent;
+
+  animation: shimmerAbrir 5s ease-in-out infinite;
+
+  /* Para evitar que un nombre muy largo rompa el diseño */
+  padding:0 10px;
+  word-wrap:break-word;
+  overflow-wrap:break-word;
 }
 
 .sobre-contenedor{
@@ -440,6 +538,44 @@ html,body{
 
   margin-top:24px;
   margin-bottom:28px;
+}
+
+/* =========================
+   NOMBRE DEL INVITADO DESTACADO (PANTALLA 3)
+========================= */
+
+.invitado-destacado{
+  display:block;
+
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size:clamp(26px,4.4vw,36px);
+  font-weight:700;
+  font-style:italic;
+  letter-spacing:0.5px;
+  line-height:1.3;
+
+  color:var(--azul-profundo);
+
+  margin:18px auto;
+  padding:0 16px;
+
+  /* Ornamentos a los lados con ❖ */
+  position:relative;
+
+  word-wrap:break-word;
+  overflow-wrap:break-word;
+}
+
+.invitado-destacado::before,
+.invitado-destacado::after{
+  content:"❖";
+  display:inline-block;
+  color:var(--dorado);
+  font-size:0.7em;
+  font-weight:400;
+  margin:0 14px;
+  vertical-align:middle;
+  opacity:0.85;
 }
 
 .fecha-img{
@@ -1656,6 +1792,12 @@ html,body{
     alt="Iniciales de los novios"
   >
 
+  <!-- Bloque del destinatario: se rellena por JS desde ?invitado= en la URL -->
+  <div class="destinatario" aria-live="polite">
+    <div class="destinatario-etiqueta">Para</div>
+    <div class="destinatario-nombre" id="nombreInvitadoSobre">Para ti, con cariño</div>
+  </div>
+
   <div class="sobre-contenedor">
 
     <img
@@ -1747,7 +1889,9 @@ html,body{
 
   <p class="texto-intro fade-in">
     Con la bendición de Dios y en compañía de nuestros padres,
-    tenemos el honor de invitarte a celebrar nuestra boda.
+    tenemos el honor de invitar a:
+    <span class="invitado-destacado" id="nombreInvitadoTexto">Para ti, con cariño</span>
+    a celebrar nuestra boda.
   </p>
 
   <img
@@ -1977,6 +2121,58 @@ const CONFIG = Object.freeze({
   WHATSAPP: "50200000000",
   MENSAJE_WA: "Confirmo mi asistencia a la boda"
 });
+
+/* =========================
+   NOMBRE DEL INVITADO (desde la URL ?invitado=...)
+   - Convierte guiones bajos en espacios
+   - Decodifica caracteres especiales (tildes, ñ)
+   - Limita a 60 caracteres para no romper el diseño
+   - Usa textContent (NO innerHTML) para evitar inyección de código
+   - Si no hay parámetro o está vacío, muestra "Para ti, con cariño"
+========================= */
+
+function obtenerNombreInvitado(){
+  const TEXTO_DEFECTO = "Para ti, con cariño";
+  const LIMITE = 60;
+
+  try {
+    const params = new URLSearchParams(window.location.search);
+    let nombre = params.get("invitado");
+
+    // Si no viene parámetro o viene vacío
+    if(!nombre) return TEXTO_DEFECTO;
+
+    // Reemplazar guiones bajos por espacios
+    nombre = nombre.replace(/_/g, " ");
+
+    // Colapsar espacios múltiples y limpiar bordes
+    nombre = nombre.replace(/\s+/g, " ").trim();
+
+    if(!nombre) return TEXTO_DEFECTO;
+
+    // Limitar longitud para evitar que rompa el diseño
+    if(nombre.length > LIMITE){
+      nombre = nombre.slice(0, LIMITE).trim() + "…";
+    }
+
+    return nombre;
+  } catch(e){
+    return TEXTO_DEFECTO;
+  }
+}
+
+function inyectarNombreInvitado(){
+  const nombre = obtenerNombreInvitado();
+
+  const elSobre = document.getElementById("nombreInvitadoSobre");
+  const elTexto = document.getElementById("nombreInvitadoTexto");
+
+  // textContent escapa automáticamente cualquier HTML/script - es seguro
+  if(elSobre) elSobre.textContent = nombre;
+  if(elTexto) elTexto.textContent = nombre;
+}
+
+inyectarNombreInvitado();
 
 const musica = document.getElementById("musica");
 const btnMusica = document.getElementById("btnMusica");
