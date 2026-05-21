@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+
 <title>Invitación de Boda</title>
 <style>
 * {
@@ -405,6 +406,28 @@ body {
   font-style: italic;
 }
 
+  /* =========================
+   ICONO CEREMONIA
+========================= */
+
+.img-ceremonia {
+  width: 72px;
+  height: auto;
+  display: block;
+  margin: 0 auto 14px;
+  object-fit: contain;
+}
+
+/* Móvil */
+@media (max-width: 700px) {
+  .img-ceremonia {
+    width: 52px;
+    margin: 0 auto 12px;
+  }
+}
+
+
+  
 /* =========================
    ANIMACIONES
 ========================= */
@@ -655,21 +678,6 @@ body {
     grid-template-rows: auto;
   }
 
-.img-ceremonia {
-  width: 90px;              /* Más pequeño */
-  max-width: 24vw;
-  display: block;
-  margin: 10px auto 14px;  /* Centrado */
-  object-fit: contain;
-}
-
-@media (max-width: 700px) {
-  .img-ceremonia {
-    width: 65px;
-    max-width: 20vw;
-    margin: 8px auto 12px;
-  }
-  
 }
 </style>
 </head>
