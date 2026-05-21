@@ -269,11 +269,11 @@ html,body{
   font-family: 'Cormorant Garamond', Georgia, serif;
   font-size:clamp(14px,2.4vw,18px);
   font-style:italic;
-  font-weight:500;
+  font-weight:600;
   letter-spacing:3px;
   text-transform:uppercase;
-  color:#5a3a14;
-  opacity:0.75;
+  color:#1a1a1a;
+  opacity:0.85;
 
   display:flex;
   align-items:center;
@@ -300,25 +300,9 @@ html,body{
   letter-spacing:0.5px;
   line-height:1.25;
 
-  color:#5a3a14;
+  color:#1a1a1a;
 
-  text-shadow:0 2px 4px rgba(255,255,255,.9);
-
-  /* Shimmer dorado igual que .texto-abrir */
-  background:linear-gradient(
-    90deg,
-    #5a3a14 0%,
-    #5a3a14 42%,
-    var(--dorado-oscuro) 50%,
-    #5a3a14 58%,
-    #5a3a14 100%
-  );
-  background-size:200% 100%;
-  -webkit-background-clip:text;
-  background-clip:text;
-  -webkit-text-fill-color:transparent;
-
-  animation: shimmerAbrir 5s ease-in-out infinite;
+  text-shadow:0 1px 2px rgba(255,255,255,.7);
 
   /* Para evitar que un nombre muy largo rompa el diseño */
   padding:0 10px;
@@ -548,7 +532,7 @@ html,body{
   display:block;
 
   font-family: 'Cormorant Garamond', Georgia, serif;
-  font-size:clamp(26px,4.4vw,36px);
+  font-size:clamp(26px,4.6vw,38px);
   font-weight:700;
   font-style:italic;
   letter-spacing:0.5px;
@@ -556,26 +540,28 @@ html,body{
 
   color:var(--azul-profundo);
 
-  margin:18px auto;
-  padding:0 16px;
+  margin:22px auto;
+  padding:14px 16px;
 
-  /* Ornamentos a los lados con ❖ */
-  position:relative;
+  /* Líneas decorativas arriba y abajo - se adaptan al ancho del nombre */
+  border-top:1px solid transparent;
+  border-bottom:1px solid transparent;
+  border-image:linear-gradient(
+    90deg,
+    transparent 0%,
+    var(--dorado) 30%,
+    var(--dorado-oscuro) 50%,
+    var(--dorado) 70%,
+    transparent 100%
+  ) 1;
+
+  /* Pequeño resplandor azul muy sutil para que destaque */
+  text-shadow:
+    0 1px 2px rgba(255,255,255,0.8),
+    0 0 18px rgba(31,79,143,0.08);
 
   word-wrap:break-word;
   overflow-wrap:break-word;
-}
-
-.invitado-destacado::before,
-.invitado-destacado::after{
-  content:"❖";
-  display:inline-block;
-  color:var(--dorado);
-  font-size:0.7em;
-  font-weight:400;
-  margin:0 14px;
-  vertical-align:middle;
-  opacity:0.85;
 }
 
 .fecha-img{
